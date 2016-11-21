@@ -31,3 +31,11 @@
   shell: dpkg-reconfigure -f noninteractive tzdata
   become: true
   when: timezone.changed
+
+- name: detect lm sensors
+  shell: sensors-detect --auto
+  become: true
+  ignore_errors: yes
+
+
+

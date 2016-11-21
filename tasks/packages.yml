@@ -27,6 +27,12 @@
 - name: install rsync
   apt: pkg=rsync state=present
 
+- name: install iftop
+  apt: pkg=iftop state=present
+
+- name: install lm-sensors
+  apt: pkg=lm-sensors state=present
+
 - name: install screen
   apt: pkg=screen state=present
 

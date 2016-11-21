@@ -1,5 +1,5 @@
-Digris Base sytem role
-======================
+Digris Base System Role
+=======================
 
 A minimal Ansible role that configures our servers...
 
