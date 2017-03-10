@@ -37,5 +37,9 @@
   become: true
   ignore_errors: yes
 
+- name: add ntp config
+  template: src=ntp.conf.j2
+            dest=/etc/ntp.conf
 
-
+- name: restart ntp service
+  service: name=ntp state=restarted
