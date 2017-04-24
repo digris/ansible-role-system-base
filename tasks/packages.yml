@@ -1,10 +1,10 @@
 ---
 
-- name: Update apt cache
+- name: update apt cache
   apt: update_cache=yes cache_valid_time=3600
   tags: tools
 
-- name: Update packages
+- name: update packages
   apt: upgrade=safe
   tags: util
 

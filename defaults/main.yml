@@ -7,4 +7,3 @@ system_base_ntp_servers:
   - 1.ch.pool.ntp.org
   - 2.ch.pool.ntp.org
   - 3.ch.pool.ntp.org
-  - 4.ch.pool.ntp.org

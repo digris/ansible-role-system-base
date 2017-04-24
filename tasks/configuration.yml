@@ -12,13 +12,14 @@
 - name: update locale locale
   action: command update-locale LC_ALL=en_US.UTF-8
   changed_when: false
+
 - name: set default locale
   lineinfile: dest=/etc/default/locale
     regexp="LC_ALL"
     line="LC_ALL=\"en_US.UTF-8\""
   changed_when: false
 
-- name: locale - adjust current locale
+- name: adjust current locale
   command: /usr/sbin/update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 LANGUAGE=en_US.UTF-8
   changed_when: false
 
