@@ -23,24 +23,35 @@
   command: /usr/sbin/update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 LANGUAGE=en_US.UTF-8
   changed_when: false
 
-- name: update timezone
-  copy: content="{{ system_base_timezone }}\n" dest=/etc/timezone owner=root group=root mode=0644
-  become: true
-  register: timezone
+- debug:
+    msg: "System {{ inventory_hostname }} has timezone {{ system_base_timezone }}"
 
-- name: reconfigure timezone data
-  shell: dpkg-reconfigure -f noninteractive tzdata
-  become: true
-  when: timezone.changed
+- name: 'set timezone to {{ system_base_timezone }}'
+  timezone:
+    name: '{{ system_base_timezone }}'
+
+
+#- name: update timezone
+#  copy: content="{{ system_base_timezone }}\n" dest=/etc/timezone owner=root group=root mode=0644
+#  become: true
+#  register: timezone
+#
+#- name: reconfigure timezone data
+#  shell: dpkg-reconfigure -f noninteractive tzdata
+#  become: true
+#  when: timezone.changed
 
 - name: detect lm sensors
   shell: sensors-detect --auto
   become: true
   ignore_errors: yes
+  when: ansible_virtualization_type != "lxc"
 
 - name: add ntp config
   template: src=ntp.conf.j2
             dest=/etc/ntp.conf
+  when: ansible_virtualization_type != "lxc"
 
 - name: restart ntp service
   service: name=ntp state=restarted
+  when: ansible_virtualization_type != "lxc"

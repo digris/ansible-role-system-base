@@ -4,6 +4,9 @@
   apt: update_cache=yes cache_valid_time=3600
   tags: tools
 
+- name: install aptitude
+  apt: pkg=aptitude state=present
+
 - name: update packages
   apt: upgrade=safe
   tags: util
@@ -30,14 +33,8 @@
 - name: install iftop
   apt: pkg=iftop state=present
 
-- name: install lm-sensors
-  apt: pkg=lm-sensors state=present
-
 - name: install screen
   apt: pkg=screen state=present
-
-- name: install ntp
-  apt: pkg=ntp state=present
 
 - name: install git
   apt: pkg=git state=present
@@ -57,6 +54,26 @@
 
 - name: install virtualenv
   easy_install: name=virtualenv
+
+- name: install virtualenv
+  easy_install: name=virtualenv
+  when: ansible_virtualization_type != "lxc"
+
+# packages only needed/wanted on "hardware"
+# TODO: also include other virtualisation types
+- name: install 'hardware' host packages
+  apt: pkg="{{ item }}" state=present
+  with_items:
+     - ntp
+     - lm-sensors
+  when: ansible_virtualization_type != "lxc"
+
+- name: uninstall/don't install 'hardware' host packages
+  apt: pkg="{{ item }}" state=absent
+  with_items:
+     - ntp
+     - lm-sensors
+  when: ansible_virtualization_type == "lxc"
 
 
 
